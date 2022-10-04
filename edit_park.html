@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href='{{url_for("static",filename="css/style.css")}}'>
+    <title>Edit park</title>
+</head>
+<body>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+            {% endwith %}
+            <nav class=" container navbar navbar-light bg-light">
+            <a href="/dashboard" class="">dashboard</a>
+            <a href="/logout" class="">Logout</a>
+            </nav>
+            <div class="container bg-info text-white">
+                <h2>Edit {{park.name}}! </h2>
+            <form action="/parks/{{park.id}}/update" method="POST">
+                <div class="form-group">
+                <input type="hidden" name="id" value="{{park.id}}" class="form-control">
+                </div>
+                <div class="form-group col-11">
+                <P>Name: <input type="text" name="name" value="{{park.name}}" class="form-control"></P>
+                </div>
+                <div class="form-group col-11">
+                <p>Location: <input type="text" name="location" value="{{park.location}}" class="form-control"></p>
+                </div>
+                <div class="form-group col-11">
+                <p>Contact: <input type="number" name="contact" value="{{park.contact}}" class="form-control"></p>
+                </div>
+                <div class="form-group col-11">
+                <p>Description: <textarea name="description" type="text"value="{{park.description}}" class="form-control"></textarea></p>
+                </div>
+                <div class="form-group col-2">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </form>
+            
+
+</body>
+</html>
