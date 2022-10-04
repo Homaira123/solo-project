@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href='{{url_for("static",filename="css/style.css")}}'>
+    <title>show a park</title>
+</head>
+<body>
+    <div class="container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+            {% endwith %}
+            <nav class=" container navbar navbar-light bg-light">
+            <a href="/dashboard" class="">dashboard</a>
+            <a href="/logout" class="">Logout</a>
+            </nav>
+            <div class="container bg-info text-white">
+            <h1>welcome {{user.first_name}} to {{park.name}} park:</h1>
+            <p>name: {{park.name}}</p>
+            <p>Location: {{park.location}}</p>
+            <p>Contact: {{park.contact}}</p>
+            <p>Description: {{park.description}}</p>
+            <p>post by:{{user.first_name}} {{user.last_name}}</p>
+            <form action="/parks/{{park.id}}/delete" method="POST">
+                <input type="hidden" name="id" value="{{park.id}}">
+                <button type="submit" class="btn btn-primary">Done</button>
+            
+    </div>
+</body>
+</html>
