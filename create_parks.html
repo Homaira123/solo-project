@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href='{{url_for("static",filename="css/style.css")}}'>
+    <title>add a park</title>
+</head>
+<body>
+    <nav class=" container navbar navbar-light bg-light">
+    <a href="/dashboard" class="navbar-brand">Dashboard</a>
+    <a href="/logout" class="navbar-brand">Logout</a>
+    </nav>
+    </div>
+    <div class="container bg-info text-white">
+    <h2>Creat a new park!</h2>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+            {% endwith %}
+    <form action="/parks/create" method="POST">
+        
+        <input type="hidden" name="user_id" value ="{{user.id}}">
+        <div class="form-group col-11">
+        <P>name: <input type="text" name="name" class="form-control"></P>
+        </div>
+        <div class="form-group col-11">
+        <p>Location: <input type="text" name="location" class="form-control"></p>
+        </div>
+        <div class="form-group col-11">
+        <p>Contact <input type="number" name="contact" class="form-control"></p>
+        </div>
+        <div class="form-group col-11">
+        <p>Description: <textarea name="description" cols="30" rows="10" class="form-control"></textarea></p>
+        </div>
+        <button type="submit" class="btn btn-primary col-2">Add</button>
+    </form>
+    </div>
+
+    
+</body>
+</html>
