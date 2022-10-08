@@ -1,6 +1,7 @@
 from flask import render_template,redirect,request,session
 from flask_app import app
 from flask_app.models.user import User
+from flask import flash
 from flask_app.models.park import Park
 
 
@@ -61,5 +62,22 @@ def update_park(id):
 
 @app.route("/parks/<int:id>/delete", methods = ['POST'])
 def delete(id):
+    park_data = {
+        'id': id
+    }
+    park = Park.get_one(park_data)
+    if (park.user_id!=session['user_id']):
+        flash(f"unauthorized access to edit park with id {id}")
+        return redirect("/dashboard")
     Park.delete(request.form)
+    return redirect("/dashboard")
+
+@app.route('/parks/<int:id>/favorite', methods=['POST'])
+def favorite_park(id):
+    Park.favorite(request.form)
+    return redirect("/dashboard")
+
+@app.route('/parks/<int:id>/unfavorite', methods=['POST'])
+def unfavorit_park(id):
+    Park.unfavorite(request.form)
     return redirect("/dashboard")
