@@ -17,9 +17,9 @@
             {% endfor %}
         {% endif %}
             {% endwith %}
-            <nav class=" container navbar navbar-light bg-light">
-            <a href="/dashboard" class="">dashboard</a>
-            <a href="/logout" class="">Logout</a>
+            <nav class=" container navbar navbar-light bg-secondary">
+            <a href="/dashboard" class="text-white">dashboard</a>
+            <a href="/logout" class="text-white">Logout</a>
             </nav>
             <div class="container bg-info text-white">
             <h1>welcome {{user.first_name}} to {{park.name}} park:</h1>
@@ -27,10 +27,12 @@
             <p>Location: {{park.location}}</p>
             <p>Contact: {{park.contact}}</p>
             <p>Description: {{park.description}}</p>
-            <p>post by:{{user.first_name}} {{user.last_name}}</p>
-            <form action="/parks/{{park.id}}/delete" method="POST">
-                <input type="hidden" name="id" value="{{park.id}}">
-                <button type="submit" class="btn btn-primary">Done</button>
+            <p>post by: {{user.first_name}} {{user.last_name}}</p>
+            <h3>Users who favorited this park</h3>
+            {% for user_who_favorited in park.users_who_favorited %}
+            <p>{{user_who_favorited.first_name}} {{user_who_favorited.last_name}}</p>
+            {% endfor %}
+            <a href="/dashboard" class=" btn btn-primary rounded-circle ">go back</a>
             
     </div>
 </body>
