@@ -17,18 +17,19 @@
         {% endif %}
             {% endwith %}
             
-    <nav class="navbar navbar-light bg-light">
-        <a href="/logout" class=" navbar-brand nav-link ">Logout</a>
-        <a href="/parks/new" class=" navbar-brand link-primary mr-auto">Add a new park</a>
+    <nav class="navbar navbar-light bg-secondary">
+        <a href="/logout" class=" navbar-brand nav-link text-white">Logout</a>
+        <a href="/parks/new" class=" navbar-brand link-primary mr-auto text-white">Add a new park</a>
     </nav>
-    <div class=" bg-info text-white">
-    <h1>Welcome to sacramento parks page,{{user.first_name}}!!!</h1>
-        <table class="table table-border col-11 text-white">
+    <div class=" bg-info text-white col-13 mb-3">
+    <h1 class="text-center">Welcome to parks and recreation page,{{user.first_name}}!!!</h1>
+        <table class="table table-border col-13 text-white">
             <thead>
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Location</th>
                     <th scope="col">Contact</th>
+                    <th>number of users who favorited</th>
                     <th scope="col">Description</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -39,24 +40,60 @@
                     <td>{{park.name}}</td>
                     <td>{{park.location}}</td>
                     <td>{{park.contact}}</td>
-                    <td>{{park.description}}</td>
-                    <td>
-                        <a href="/show/{{park.id}}" class="btn btn-primary">view</a>
-                        {% if park.user_id == user.id %}
-                        <a href="/edit/{{park.id}}" class="btn btn-success">Edit</a>
-                        <form action="/parks/{{park.id}}/delete" method="POST">
-                            <input type="hidden" name="id" value="{{park.id}}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                    <td>{{park.user_ids_who_favorited | length}}
+                        {% if session.user_id in park.user_ids_who_favorited %}
+                            <form action="/parks/{{park.id}}/unfavorite" method="POST">
+                                <input name="id" type="hidden" value="{{park.id}}">
+                                <input name="user_id" type="hidden" value="{{session.user_id}}">
+                                <button type="submit" class="btn btn-danger">Remove park from your favorites</button>
+                            </form>
+
+                        {% else %}
+                            <form action="/parks/{{park.id}}/favorite" method="POST">
+                                <input type="hidden" name="id" value="{{park.id}}">
+                                <input type="hidden" name="user_id" value="{{session.user_id}}">
+                                <button type="submit" class="btn btn-primary">Favorite this park</button>
+                            </form>
+
                         {%endif%}
                     </td>
-
-
+                    <td>{{park.description}}</td>
+                    <td>
+                        <a href="/show/{{park.id}}" class="btn btn-primary rounded-circle">view</a>
+                    </td>
                 </tr>
                 {% endfor %}
 
             </tbody>
         </table>
-    
-</body>
+    </div>
+    <h1 class="text-center">my favorite parks</h1>
+    <div class=" bg-info text-white col-13 mb-3 ">
+        <table class="table table-border table-center text-white">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for park in parks %}
+                {% if park.user_id == user.id %}
+                <tr>
+                    <td>{{park.name}}</td>
+                    <td>
+                        
+                        <a href="/show/{{park.id}}" class="btn btn-primary rounded">view</a>
+                        <a href="/edit/{{park.id}}" class="btn btn-success rounded">Edit</a>
+                        <form action="/parks/{{park.id}}/delete" method="POST">
+                            <input type="hidden" name="id" value="{{park.id}}">
+                            <button type="submit" class="btn btn-danger rounded">Delete</button>
+                        </form>
+                        {%endif%}
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
 </html>
