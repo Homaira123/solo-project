@@ -5,7 +5,7 @@ import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class User:
-    db="log_parks"
+    db="parks"
 
     def __init__(self,data):
         self.id=data['id']
@@ -49,7 +49,7 @@ class User:
             flash('email is associated with anothe account')
             is_valid=False
         if len(user['first_name'])<2:
-            flash('first name must be at least 3 characters','error')
+            flash('first name must be at least 2 characters','error')
             is_valid=False
         if len(user['last_name'])<2:
             flash("last name must be at least 2 characters","error")
